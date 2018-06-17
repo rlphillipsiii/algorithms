@@ -1,0 +1,6 @@
+.cproject
+.externalToolBuilders
+.settings/*
+.project
+*.exe
+*.dll
