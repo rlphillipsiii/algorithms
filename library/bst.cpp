@@ -35,7 +35,7 @@ void bst<T>::add(const T & value)
 		add(m_root, node);
 	}
 
-	data_structure<T>::m_size++;
+	__m_size++;
 }
 
 template <typename T>

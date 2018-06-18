@@ -27,7 +27,7 @@ T *array<T>::data() const
 }
 
 template <typename T>
-T & array<T>::operator[](int index)
+T & array<T>::operator[](uint64_t index)
 {
 	__check(index);
 
@@ -35,7 +35,7 @@ T & array<T>::operator[](int index)
 }
 
 template <typename T>
-const T & array<T>::at(int index) const
+const T & array<T>::at(uint64_t index) const
 {
 	__check(index);
 
@@ -43,7 +43,7 @@ const T & array<T>::at(int index) const
 }
 
 template <typename T>
-T array<T>::get(int index) const
+T array<T>::get(uint64_t index) const
 {
 	__check(index);
 
@@ -51,7 +51,7 @@ T array<T>::get(int index) const
 }
 
 template <typename T>
-T & array<T>::lookup(int index) const
+T & array<T>::lookup(uint64_t index) const
 {
 	__check(index);
 

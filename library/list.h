@@ -22,7 +22,7 @@ namespace dsa
 		void push(const T & value);
 		void push_back(const T & value);
 
-		void insert(int index, const T & value);
+		void insert(uint64_t index, const T & value);
 
 		T & front() const;
 		T & back() const;

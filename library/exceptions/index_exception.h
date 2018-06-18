@@ -15,15 +15,15 @@ namespace dsa
 class index_exception : public exception
 	{
 	public:
-		index_exception(int index)
+		index_exception(uint64_t index)
 			: exception("Index Out of Bounds"),
 			  m_index(index)
 		{ }
 
-		inline int index() { return m_index; }
+		inline uint64_t index() const { return m_index; }
 
 	private:
-		int m_index;
+		uint64_t m_index;
 	};
 };
 

@@ -30,7 +30,7 @@ list<T>::~list()
 template <typename T>
 T & list<T>::front() const
 {
-	data_structure<T>::check();
+	__check();
 
 	return m_head->m_value;
 }
@@ -38,7 +38,7 @@ T & list<T>::front() const
 template <typename T>
 T & list<T>::back() const
 {
-	data_structure<T>::check();
+	__check();
 
 	return m_tail->m_value;
 }
@@ -46,7 +46,7 @@ T & list<T>::back() const
 template <typename T>
 T list<T>::pop()
 {
-	data_structure<T>::check();
+	__check();
 
 	T value = m_head->m_value;
 
@@ -54,7 +54,10 @@ T list<T>::pop()
 	m_head = m_head->m_next;
 	delete temp;
 
-	data_structure<T>::m_size--;
+	if (__m_size == 1) {
+		m_tail = nullptr;
+	}
+	__m_size--;
 
 	return value;
 }
@@ -62,7 +65,7 @@ T list<T>::pop()
 template <typename T>
 T list<T>::pop_back()
 {
-	data_structure<T>::check();
+	__check();
 
 	T value = m_tail->m_value;
 
@@ -70,7 +73,10 @@ T list<T>::pop_back()
 	m_tail = m_tail->m_prev;
 	delete temp;
 
-	data_structure<T>::m_size--;
+	if (__m_size == 1) {
+		m_head = nullptr;
+	}
+	__m_size--;
 
 	return value;
 }
@@ -85,14 +91,14 @@ void list<T>::push(const T & value)
 
 	if (m_head) {
 		m_head->m_prev = node;
-		if (m_tail == nullptr) {
-			m_tail = m_head;
-		}
 	}
 
 	m_head = node;
+	if (m_tail == nullptr) {
+		m_tail = m_head;
+	}
 
-	data_structure<T>::m_size++;
+	__m_size++;
 }
 
 template <typename T>
@@ -105,23 +111,25 @@ void list<T>::push_back(const T & value)
 
 	if (m_tail) {
 		m_tail->m_next = node;
-		if (m_head == nullptr) {
-			m_head = m_tail;
-		}
 	}
 
 	m_tail = node;
+	if (m_head == nullptr) {
+		m_head = m_tail;
+	}
 
-	data_structure<T>::m_size++;
+	__m_size++;
 }
 
 template <typename T>
-void list<T>::insert(int index, const T & value)
+void list<T>::insert(uint64_t index, const T & value)
 {
-	data_structure<T>::check(index);
+	__check(index);
 
 	if (index == 0) {
 		push(value);
+	} else if (index == __m_size) {
+		push_back(value);
 	} else {
 		Node *node = new Node();
 		node->m_value = value;
@@ -136,6 +144,8 @@ void list<T>::insert(int index, const T & value)
 
 		target->m_prev = node;
 		node->m_prev->m_next = node;
+
+		__m_size++;
 	}
 }
 
@@ -157,9 +167,31 @@ T *list<T>::find(const T & value) const
 template <typename T>
 bool list<T>::remove(const T & value)
 {
-	data_structure<T>::check();
+	__check();
 
-	data_structure<T>::m_size--;
+	Node *current = m_head;
+
+	while (current != nullptr) {
+		if (current->m_value == value) {
+			if (current == m_head) {
+				pop();
+			} else if (current == m_tail) {
+				pop_back();
+			} else {
+				Node *prev = current->m_prev;
+				Node *next = current->m_next;
+
+				prev->m_next = next;
+				next->m_prev = prev;
+
+				delete current;
+				__m_size--;
+			}
+
+			return true;
+		}
+		current = current->m_next;
+	}
 
 	return false;
 }

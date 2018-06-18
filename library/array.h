@@ -21,11 +21,11 @@ namespace dsa
 
 		T *data() const;
 
-		T & operator[](int index);
+		T & operator[](uint64_t index);
 
-		const T & at(int index) const;
-		T get(int index) const;
-		T & lookup(int index) const;
+		const T & at(uint64_t index) const;
+		T get(uint64_t index) const;
+		T & lookup(uint64_t index) const;
 
 		T *find(const T & value) const;
 		bool remove(const T & value);

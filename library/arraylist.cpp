@@ -26,7 +26,7 @@ T *array_list<T>::data() const
 }
 
 template <typename T>
-T & array_list<T>::operator[](int index)
+T & array_list<T>::operator[](uint64_t index)
 {
 	__check(index);
 
@@ -34,7 +34,7 @@ T & array_list<T>::operator[](int index)
 }
 
 template <typename T>
-const T & array_list<T>::at(int index) const
+const T & array_list<T>::at(uint64_t index) const
 {
 	__check(index);
 
@@ -42,7 +42,7 @@ const T & array_list<T>::at(int index) const
 }
 
 template <typename T>
-T array_list<T>::get(int index) const
+T array_list<T>::get(uint64_t index) const
 {
 	__check(index);
 
@@ -50,7 +50,7 @@ T array_list<T>::get(int index) const
 }
 
 template <typename T>
-T & array_list<T>::lookup(int index) const
+T & array_list<T>::lookup(uint64_t index) const
 {
 	__check(index);
 
@@ -92,7 +92,7 @@ T array_list<T>::pop_back()
 }
 
 template <typename T>
-bool array_list<T>::removeIndex(int index)
+bool array_list<T>::removeIndex(uint64_t index)
 {
 	__check(index);
 

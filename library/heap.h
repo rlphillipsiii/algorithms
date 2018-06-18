@@ -29,24 +29,22 @@ namespace dsa
 		T *find(const T & value) const;
 		bool remove(const T & value);
 
-		inline int parent(int index) const { return ((index - 1) / 2); }
-		inline int left(int index)   const { return ((2 * index) + 1); }
-		inline int right(int index)  const { return ((2 * index) + 2); }
+		inline uint64_t parent(uint64_t index) const { return ((index - 1) / 2); }
+		inline uint64_t left(uint64_t index)   const { return ((2 * index) + 1); }
+		inline uint64_t right(uint64_t index)  const { return ((2 * index) + 2); }
 
 		inline uint64_t size() const override { return m_tree.size(); }
 
 	private:
-		static const int VALUE_NOT_FOUND;
-
 		array_list<T> m_tree;
 
 		const Strategy m_strategy;
 
-		void swap(int index1, int index2);
+		void swap(uint64_t index1, uint64_t index2);
 		void constrain();
-		bool broken(int parent);
+		bool broken(uint64_t parent) const;
 
-		int indexOf(const T & value) const;
+		uint64_t indexOf(const T & value, bool & found) const;
 	};
 
 #include "heap.cpp"

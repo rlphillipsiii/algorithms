@@ -19,18 +19,18 @@ namespace dsa
 		array_list(uint64_t capacity = 8);
 		~array_list();
 
-		const T & at(int index) const;
-		T get(int index) const;
-		T & lookup(int index) const;
+		const T & at(uint64_t index) const;
+		T get(uint64_t index) const;
+		T & lookup(uint64_t index) const;
 
 		void append(const T & value);
-		bool removeIndex(int index);
+		bool removeIndex(uint64_t index);
 		T pop_back();
 
 		T *find(const T & value) const;
 		bool remove(const T & value);
 
-		T & operator[](int index);
+		T & operator[](uint64_t index);
 
 		T *data() const;
 	private:
