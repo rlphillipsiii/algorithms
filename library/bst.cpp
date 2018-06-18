@@ -82,7 +82,7 @@ T *bst<T>::find(Node *node, const T & value) const
 template <typename T>
 bool bst<T>::remove(const T & value)
 {
-	data_structure<T>::check();
+	__check();
 
 	Node *parent = nullptr;
 	Node *found  = nullptr;;
@@ -92,7 +92,7 @@ bool bst<T>::remove(const T & value)
 		return false;
 	}
 
-	data_structure<T>::m_size--;
+	__m_size--;
 
 	if ((found->m_right != nullptr) && (found->m_left != nullptr)) {
 		Node *subtree = found;

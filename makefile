@@ -6,9 +6,6 @@ FLAGS=-std=c++11 -Wall
 
 INCLUDES=-Ilibrary -Ilibrary/exceptions
 	
-LD_PATH=-L.
-LIBS=-l$(EXCEPTIONS)
-
 SOURCES=main.cpp
 	
 templates:

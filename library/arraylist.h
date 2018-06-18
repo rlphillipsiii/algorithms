@@ -16,11 +16,12 @@ namespace dsa
 	class array_list : public data_structure<T>
 	{
 	public:
-		array_list(uint32_t capacity = 8);
+		array_list(uint64_t capacity = 8);
 		~array_list();
 
 		const T & at(int index) const;
-		T & get(int index) const;
+		T get(int index) const;
+		T & lookup(int index) const;
 
 		void append(const T & value);
 		bool removeIndex(int index);
@@ -35,7 +36,7 @@ namespace dsa
 	private:
 		friend class dsa_test;
 
-		uint32_t m_capacity;
+		uint64_t m_capacity;
 
 		T *m_storage;
 	};

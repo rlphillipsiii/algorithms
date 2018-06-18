@@ -33,7 +33,7 @@ namespace dsa
 		inline int left(int index)   const { return ((2 * index) + 1); }
 		inline int right(int index)  const { return ((2 * index) + 2); }
 
-		inline uint32_t size() const override { return m_tree.size(); }
+		inline uint64_t size() const override { return m_tree.size(); }
 
 	private:
 		static const int VALUE_NOT_FOUND;

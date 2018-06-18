@@ -26,8 +26,8 @@ heap<T>::~heap()
 template <typename T>
 void heap<T>::swap(int index1, int index2)
 {
-	data_structure<T>::check(index1);
-	data_structure<T>::check(index2);
+	__check(index1);
+	__check(index2);
 
 	T temp = m_tree[index1];
 	m_tree[index1] = m_tree[index2];
@@ -113,7 +113,7 @@ T *heap<T>::find(const T & value) const
 {
 	int index = indexOf(value);
 
-	return (index == VALUE_NOT_FOUND) ? nullptr : &m_tree.get(index);
+	return (index == VALUE_NOT_FOUND) ? nullptr : &m_tree.lookup(index);
 }
 
 template <typename T>

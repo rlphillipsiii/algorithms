@@ -13,6 +13,7 @@
 #include <heap.h>
 #include <dequeue.h>
 #include <avltree.h>
+#include <array.h>
 
 using dsa::list;
 using dsa::bst;
@@ -20,6 +21,7 @@ using dsa::array_list;
 using dsa::heap;
 using dsa::dequeue;
 using dsa::avl_tree;
+using dsa::array;
 
 int main(int argc, char **argv)
 {
@@ -60,6 +62,11 @@ int main(int argc, char **argv)
 
 	avl_tree<int> dsa_avl;
 	(void)dsa_avl;
+
+	array<int> dsa_array(16);
+	for (uint64_t i = 0; i < dsa_array.size(); i++) {
+		dsa_array[i] = i;
+	}
 
 	return 0;
 }

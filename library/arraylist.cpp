@@ -6,7 +6,7 @@
  */
 
 template <typename T>
-array_list<T>::array_list(uint32_t capacity)
+array_list<T>::array_list(uint64_t capacity)
 	: m_capacity(capacity)
 {
 	m_storage = new T[m_capacity];
@@ -28,7 +28,7 @@ T *array_list<T>::data() const
 template <typename T>
 T & array_list<T>::operator[](int index)
 {
-	data_structure<T>::check(index);
+	__check(index);
 
 	return m_storage[index];
 }
@@ -36,15 +36,23 @@ T & array_list<T>::operator[](int index)
 template <typename T>
 const T & array_list<T>::at(int index) const
 {
-	data_structure<T>::check(index);
+	__check(index);
 
 	return m_storage[index];
 }
 
 template <typename T>
-T & array_list<T>::get(int index) const
+T array_list<T>::get(int index) const
 {
-	data_structure<T>::check(index);
+	__check(index);
+
+	return m_storage[index];
+}
+
+template <typename T>
+T & array_list<T>::lookup(int index) const
+{
+	__check(index);
 
 	return m_storage[index];
 }
@@ -52,30 +60,30 @@ T & array_list<T>::get(int index) const
 template <typename T>
 void array_list<T>::append(const T & value)
 {
-	data_structure<T>::m_size++;
+	__m_size++;
 
-	if (m_capacity < data_structure<T>::m_size) {
+	if (m_capacity < __m_size) {
 		m_capacity *= 2;
 
 		T *temp = m_storage;
 
 		m_storage = new T[m_capacity];
-		for (uint32_t i = 0; i < data_structure<T>::m_size - 1; i++) {
+		for (uint64_t i = 0; i < __m_size - 1; i++) {
 			m_storage[i] = temp[i];
 		}
 
 		delete [] temp;
 	}
 
-	m_storage[data_structure<T>::m_size - 1] = value;
+	m_storage[__m_size - 1] = value;
 }
 
 template <typename T>
 T array_list<T>::pop_back()
 {
-	data_structure<T>::check();
+	__check();
 
-	uint32_t index = data_structure<T>::m_size - 1;
+	uint32_t index = __m_size - 1;
 
 	T value = m_storage[index];
 	removeIndex(index);
@@ -86,13 +94,13 @@ T array_list<T>::pop_back()
 template <typename T>
 bool array_list<T>::removeIndex(int index)
 {
-	data_structure<T>::check(index);
+	__check(index);
 
-	for (uint32_t i = index; i < data_structure<T>::m_size - 1; i++) {
+	for (uint64_t i = index; i < __m_size - 1; i++) {
 		m_storage[i] = m_storage[i + 1];
 	}
 
-	data_structure<T>::m_size--;
+	__m_size--;
 
 	return true;
 }
@@ -100,7 +108,7 @@ bool array_list<T>::removeIndex(int index)
 template <typename T>
 T *array_list<T>::find(const T & value) const
 {
-	for (uint32_t i = 0; i < data_structure<T>::m_size; i++) {
+	for (uint64_t i = 0; i < __m_size; i++) {
 		if (value == m_storage[i]) {
 			return &m_storage[i];
 		}
@@ -111,7 +119,7 @@ T *array_list<T>::find(const T & value) const
 template <typename T>
 bool array_list<T>::remove(const T & value)
 {
-	for (uint32_t i = 0; i < data_structure<T>::m_size; i++) {
+	for (uint64_t i = 0; i < __m_size; i++) {
 		if (value == m_storage[i]) {
 			removeIndex(i);
 			return true;

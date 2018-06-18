@@ -11,6 +11,9 @@
 #include <cstdint>
 #include <index_exception.h>
 
+#define __m_size     data_structure<T>::m_size
+#define __check(...) data_structure<T>::check(__VA_ARGS__)
+
 namespace dsa
 {
 	template <typename T>
@@ -28,14 +31,15 @@ namespace dsa
 			return (find(value) != nullptr);
 		}
 
-		virtual inline uint32_t size() const { return m_size; }
+		virtual inline uint64_t size() const { return m_size; }
 
 	protected:
-		uint32_t m_size;
+		uint64_t m_size;
 
-		void check(uint32_t index = 0) const
+		void check(uint64_t index = 0) const
 		{
-			if ((m_size == 0) || (index < 0) || (index >= m_size)) {
+			uint64_t count = size();
+			if ((count == 0) || (index < 0) || (index >= count)) {
 				throw dsa::index_exception(index);
 			}
 		}
@@ -45,15 +49,15 @@ namespace dsa
 			Container()          { m_refs++; }
 			virtual ~Container() { m_refs--; }
 
-			inline static uint32_t count() { return m_refs; }
+			inline static uint64_t count() { return m_refs; }
 
 		private:
-			static uint32_t m_refs;
+			static uint64_t m_refs;
 		};
 	};
 
 	template <typename T>
-	uint32_t data_structure<T>::Container::m_refs = 0;
+	uint64_t data_structure<T>::Container::m_refs = 0;
 };
 
 #endif /* LIBRARY_DATASTRUCTURE_H_ */
