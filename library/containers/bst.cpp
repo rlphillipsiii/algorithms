@@ -16,15 +16,26 @@ bst<T>::bst()
 template <typename T>
 bst<T>::~bst()
 {
-	if (m_root != nullptr) {
-		deleteNode(m_root);
-	}
+	clear();
+
+	__m_size = 0;
+}
+
+template <typename T>
+void bst<T>::clear()
+{
+    if (m_root != nullptr) {
+        deleteNode(m_root);
+    }
+    m_root = nullptr;
+
+    __m_size = 0;
 }
 
 template <typename T>
 void bst<T>::add(const T & value)
 {
-	Node *node = new Node();
+	Node *node = alloc<Node>();
 	node->m_value = value;
 	node->m_left  = nullptr;
 	node->m_right = nullptr;
@@ -116,25 +127,29 @@ bool bst<T>::remove(const T & value)
 template <typename T>
 void bst<T>::remove(Node *parent, Node *found)
 {
-	if ((found->m_right == nullptr) && (found->m_left == nullptr)) {
-		if (parent->m_right == found) {
-			parent->m_right = nullptr;
-		} else {
-			parent->m_left = nullptr;
-		}
-	} else if ((found->m_right == nullptr) && (found->m_left != nullptr)) {
-		if (parent->m_right == found) {
-			parent->m_right = found->m_left;
-		} else {
-			parent->m_left = found->m_left;
-		}
-	} else if ((found->m_right != nullptr) && (found->m_left == nullptr)) {
-		if (parent->m_right == found) {
-			parent->m_right = found->m_right;
-		} else {
-			parent->m_left = found->m_right;
-		}
-	}
+    if (parent != nullptr) {
+        if ((found->m_right == nullptr) && (found->m_left == nullptr)) {
+            if (parent->m_right == found) {
+                parent->m_right = nullptr;
+            } else {
+                parent->m_left = nullptr;
+            }
+        } else if ((found->m_right == nullptr) && (found->m_left != nullptr)) {
+            if (parent->m_right == found) {
+                parent->m_right = found->m_left;
+            } else {
+                parent->m_left = found->m_left;
+            }
+        } else if ((found->m_right != nullptr) && (found->m_left == nullptr)) {
+            if (parent->m_right == found) {
+                parent->m_right = found->m_right;
+            } else {
+                parent->m_left = found->m_right;
+            }
+        }
+    } else {
+        m_root = nullptr;
+    }
 
 	found->m_right = nullptr;
 	found->m_left  = nullptr;
@@ -151,9 +166,14 @@ void bst<T>::deleteNode(Node *node)
 }
 
 template <typename T>
-void bst<T>::findNode(Node *parent, Node *node, const T & value) const
+void bst<T>::findNode(Node * & parent, Node * & node, const T & value) const
 {
 	parent = nullptr;
+	node   = nullptr;
+
+	if (m_root == nullptr) {
+	    return;
+	}
 
 	if (m_root->m_value == value) {
 		node = m_root;
@@ -166,9 +186,9 @@ void bst<T>::findNode(Node *parent, Node *node, const T & value) const
 }
 
 template <typename T>
-void bst<T>::findNode(Node *parent, Node *node, Node *root, const T & value) const
+void bst<T>::findNode(Node * & parent, Node * & node, Node *root, const T & value) const
 {
-	if ((root->m_left == nullptr) && (root->m_right == nullptr)) {
+	if ((root == nullptr) || ((root->m_left == nullptr) && (root->m_right == nullptr))) {
 		node = nullptr;
 		return;
 	}

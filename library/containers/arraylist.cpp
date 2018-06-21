@@ -7,9 +7,11 @@
 
 template <typename T>
 array_list<T>::array_list(uint64_t capacity)
-	: m_capacity(capacity)
+	: data_structure<T>(),
+	  m_initial(capacity),
+	  m_capacity(capacity)
 {
-	m_storage = new T[m_capacity];
+	m_storage = alloc<T>(m_capacity);
 }
 
 
@@ -26,7 +28,7 @@ T *array_list<T>::data() const
 }
 
 template <typename T>
-T & array_list<T>::operator[](uint64_t index)
+T & array_list<T>::operator[](uint64_t index) const
 {
 	__check(index);
 
@@ -50,11 +52,9 @@ T array_list<T>::get(uint64_t index) const
 }
 
 template <typename T>
-T & array_list<T>::lookup(uint64_t index) const
+void array_list<T>::add(const T & value)
 {
-	__check(index);
-
-	return m_storage[index];
+    append(value);
 }
 
 template <typename T>
@@ -67,7 +67,7 @@ void array_list<T>::append(const T & value)
 
 		T *temp = m_storage;
 
-		m_storage = new T[m_capacity];
+		m_storage = alloc<T>(m_capacity);
 		for (uint64_t i = 0; i < __m_size - 1; i++) {
 			m_storage[i] = temp[i];
 		}
@@ -127,4 +127,17 @@ bool array_list<T>::remove(const T & value)
 	}
 
 	return false;
+}
+
+template <typename T>
+void array_list<T>::clear()
+{
+    if (m_capacity != m_initial) {
+        delete [] m_storage;
+
+        m_capacity = m_initial;
+        m_storage  = new T[m_capacity];
+    }
+
+    __m_size = 0;
 }

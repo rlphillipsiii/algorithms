@@ -21,14 +21,15 @@ namespace dsa
 
 		T *data() const;
 
-		T & operator[](uint64_t index);
+		T & operator[](uint64_t index) const;
 
 		const T & at(uint64_t index) const;
 		T get(uint64_t index) const;
-		T & lookup(uint64_t index) const;
 
-		T *find(const T & value) const;
-		bool remove(const T & value);
+		T *find(const T & value) const override;
+		bool remove(const T & value) override;
+		void clear() override { DSA_NOT_IMPLEMENTED }
+		void add(const T & value) override { DSA_NOT_IMPLEMENTED }
 
 	private:
 		T *m_storage;

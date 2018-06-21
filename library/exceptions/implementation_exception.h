@@ -8,27 +8,27 @@
 #ifndef LIBRARY_EXCEPTIONS_IMPLEMENTATION_EXCEPTION_H_
 #define LIBRARY_EXCEPTIONS_IMPLEMENTATION_EXCEPTION_H_
 
-#include <string>
-#include "exception.h"
+#include <exception.h>
+
+#define DSA_NOT_IMPLEMENTED throw implementation_exception(__FUNCTION__);
 
 namespace dsa
 {
 	class implementation_exception : public exception
 	{
 	public:
-		implementation_exception(const char *function)
-			: exception(""),
+		implementation_exception(const string & function)
+			: exception("Functionality not implemented: "),
 			  m_function(function)
 		{ }
 
-		virtual const char *message() const override
+		virtual string message() const override
 		{
-			std::string temp("Functionality not implemented: ");
-			return (temp + m_function).c_str();
+			return (exception::m_message + m_function);
 		}
 
 	private:
-		std::string m_function;
+		string m_function;
 	};
 };
 

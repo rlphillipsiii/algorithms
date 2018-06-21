@@ -44,7 +44,7 @@ void heap<T>::constrain()
 	uint64_t index = m_tree.size() - 1;
 
 	uint64_t pIndex = parent(index);
-	while (pIndex > 0) {
+	while (index > 0) {
 		if ((m_strategy == HEAP_MIN) && (m_tree[index] >= m_tree[pIndex])) {
 			break;
 		}
@@ -65,9 +65,7 @@ uint64_t heap<T>::indexOf(const T & value, bool & found) const
 {
 	uint64_t size = m_tree.size();
 
-	found = false;
-
-	if (m_tree.at(0) == value) {
+	if ((found = (m_tree.at(0) == value))) {
 		return 0;
 	} else if ((m_strategy == HEAP_MIN) && (value < m_tree.at(0))) {
 		return 0;
@@ -114,7 +112,7 @@ T *heap<T>::find(const T & value) const
 	bool found;
 	uint64_t index = indexOf(value, found);
 
-	return (found) ? &m_tree.lookup(index) : nullptr;
+	return (found) ? &m_tree[index] : nullptr;
 }
 
 template <typename T>
@@ -145,6 +143,9 @@ bool heap<T>::remove(const T & value)
 	}
 
 	T back = m_tree.pop_back();
+	if (m_tree.size() == 0) {
+	    return true;
+	}
 
 	uint64_t lIndex = left(index);
 	uint64_t rIndex = right(index);
@@ -168,4 +169,10 @@ bool heap<T>::remove(const T & value)
 	}
 
 	return true;
+}
+
+template <typename T>
+void heap<T>::clear()
+{
+    m_tree.clear();
 }

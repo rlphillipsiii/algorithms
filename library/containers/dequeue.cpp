@@ -37,6 +37,12 @@ T dequeue<T>::peek_back()
 }
 
 template <typename T>
+void dequeue<T>::add(const T & value)
+{
+    enqueue_front(value);
+}
+
+template <typename T>
 void dequeue<T>::enqueue_front(const T & value)
 {
 	m_storage.push(value);
@@ -67,7 +73,13 @@ bool dequeue<T>::remove(const T & value)
 }
 
 template <typename T>
-T *dequeue<T>::find(const T & value)
+void dequeue<T>::clear()
+{
+    m_storage.clear();
+}
+
+template <typename T>
+T *dequeue<T>::find(const T & value) const
 {
 	return m_storage.find(value);
 }

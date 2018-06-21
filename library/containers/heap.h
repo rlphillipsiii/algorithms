@@ -24,10 +24,10 @@ namespace dsa
 		heap(Strategy strategy = HEAP_MIN);
 		~heap();
 
-		void add(const T & value);
-
-		T *find(const T & value) const;
-		bool remove(const T & value);
+		void add(const T & value) override;
+		void clear() override;
+		T *find(const T & value) const override;
+		bool remove(const T & value) override;
 
 		inline uint64_t parent(uint64_t index) const { return ((index - 1) / 2); }
 		inline uint64_t left(uint64_t index)   const { return ((2 * index) + 1); }

@@ -9,7 +9,7 @@ template <typename T>
 array<T>::array(uint64_t capacity)
 	: data_structure<T>()
 {
-	m_storage = new T[capacity];
+	m_storage = alloc<T>(capacity);
 
 	__m_size = capacity;
 }
@@ -27,7 +27,7 @@ T *array<T>::data() const
 }
 
 template <typename T>
-T & array<T>::operator[](uint64_t index)
+T & array<T>::operator[](uint64_t index) const
 {
 	__check(index);
 
@@ -51,14 +51,6 @@ T array<T>::get(uint64_t index) const
 }
 
 template <typename T>
-T & array<T>::lookup(uint64_t index) const
-{
-	__check(index);
-
-	return m_storage[index];
-}
-
-template <typename T>
 T *array<T>::find(const T & value) const
 {
 	for (uint64_t i = 0; i < __m_size; i++) {
@@ -73,7 +65,7 @@ T *array<T>::find(const T & value) const
 template <typename T>
 bool array<T>::remove(const T & value)
 {
-	throw implementation_exception(__FUNCTION__);
+    DSA_NOT_IMPLEMENTED
 
 	return true;
 }

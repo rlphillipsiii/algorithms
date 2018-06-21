@@ -54,10 +54,10 @@ T list<T>::pop()
 	m_head = m_head->m_next;
 	delete temp;
 
-	if (__m_size == 1) {
-		m_tail = nullptr;
-	}
 	__m_size--;
+	if (__m_size == 0) {
+        m_tail = nullptr;
+    }
 
 	return value;
 }
@@ -73,18 +73,24 @@ T list<T>::pop_back()
 	m_tail = m_tail->m_prev;
 	delete temp;
 
-	if (__m_size == 1) {
-		m_head = nullptr;
-	}
 	__m_size--;
+	if (__m_size == 0) {
+        m_head = nullptr;
+    }
 
 	return value;
 }
 
 template <typename T>
+void list<T>::add(const T & value)
+{
+    push(value);
+}
+
+template <typename T>
 void list<T>::push(const T & value)
 {
-	Node *node = new Node();
+	Node *node = alloc<Node>();
 	node->m_value = value;
 	node->m_next  = m_head;
 	node->m_prev  = nullptr;
@@ -104,7 +110,7 @@ void list<T>::push(const T & value)
 template <typename T>
 void list<T>::push_back(const T & value)
 {
-	Node *node = new Node();
+	Node *node = alloc<Node>();
 	node->m_value = value;
 	node->m_next  = nullptr;
 	node->m_prev  = m_tail;
@@ -128,10 +134,10 @@ void list<T>::insert(uint64_t index, const T & value)
 
 	if (index == 0) {
 		push(value);
-	} else if (index == __m_size) {
+	} else if (index == __m_size - 1) {
 		push_back(value);
 	} else {
-		Node *node = new Node();
+		Node *node = alloc<Node>();
 		node->m_value = value;
 
 		Node *target = m_head;
@@ -194,4 +200,65 @@ bool list<T>::remove(const T & value)
 	}
 
 	return false;
+}
+
+template <typename T>
+void list<T>::clear()
+{
+    Node *current = m_head;
+
+    while (current != nullptr) {
+        Node *temp = current;
+
+        current = current->m_next;
+        delete temp;
+    }
+
+    __m_size = 0;
+    m_head = nullptr;
+    m_tail = nullptr;
+}
+
+template <typename T>
+typename list<T>::iterator list<T>::begin() const
+{
+    return list<T>::iterator(*this);
+}
+
+template <typename T>
+list<T>::iterator::iterator(const list<T> & parent)
+    : m_parent(parent),
+      m_index(0),
+      m_current(parent.m_head)
+{
+
+}
+
+template <typename T>
+list<T>::iterator::~iterator()
+{
+
+}
+
+template <typename T>
+bool list<T>::iterator::hasNext() const
+{
+    return (m_current != nullptr);
+}
+
+template <typename T>
+uint64_t list<T>::iterator::index() const
+{
+    return m_index;
+}
+
+template <typename T>
+T & list<T>::iterator::next()
+{
+    T & value = m_current->m_value;
+
+    m_index++;
+
+    m_current = m_current->m_next;
+    return value;
 }

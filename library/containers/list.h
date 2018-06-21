@@ -30,8 +30,29 @@ namespace dsa
 		T pop();
 		T pop_back();
 
-		T *find(const T & value) const;
-		bool remove(const T & value);
+		T *find(const T & value) const override;
+		bool remove(const T & value) override;
+		void clear() override;
+		void add(const T & value) override;
+
+		class iterator
+		{
+		public:
+		    iterator(const list<T> & parent);
+		    ~iterator();
+
+		    bool hasNext() const;
+		    T & next();
+		    uint64_t index() const;
+
+		private:
+		    const list<T> & m_parent;
+
+		    uint64_t m_index;
+		    struct list<T>::Node *m_current;
+		};
+
+		iterator begin() const;
 
 	private:
 		struct Node : public data_structure<T>::Container {

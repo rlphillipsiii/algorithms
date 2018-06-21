@@ -1,6 +1,7 @@
 .cproject
 .externalToolBuilders
 .settings/*
+tests/obj/*
 .project
 *.exe
 *.dll

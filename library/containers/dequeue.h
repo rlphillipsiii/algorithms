@@ -29,10 +29,14 @@ namespace dsa
 		T dequeue_front(const T & value);
 		T dequeue_back(const T & value);
 
-		bool remove(const T & value);
-		T *find(const T & value);
+		bool remove(const T & value) override;
+		T *find(const T & value) const override;
+		void add(const T & value) override;
+		void clear() override;
 
 		bool empty();
+
+		inline uint64_t size() const override { return m_storage.size(); }
 
 	private:
 		list<T> m_storage;

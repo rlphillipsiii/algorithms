@@ -9,6 +9,7 @@
 #define LIBRARY_ARRAYLIST_H_
 
 #include <datastructure.h>
+#include <memory_exception.h>
 
 namespace dsa
 {
@@ -21,21 +22,22 @@ namespace dsa
 
 		const T & at(uint64_t index) const;
 		T get(uint64_t index) const;
-		T & lookup(uint64_t index) const;
 
 		void append(const T & value);
 		bool removeIndex(uint64_t index);
 		T pop_back();
 
-		T *find(const T & value) const;
-		bool remove(const T & value);
-
-		T & operator[](uint64_t index);
+		T & operator[](uint64_t index) const;
 
 		T *data() const;
-	private:
-		friend class dsa_test;
 
+		T *find(const T & value) const override;
+        bool remove(const T & value) override;
+        void add(const T & value) override;
+        void clear() override;
+
+	private:
+		uint64_t m_initial;
 		uint64_t m_capacity;
 
 		T *m_storage;

@@ -19,10 +19,10 @@ namespace dsa
 		bst();
 		virtual ~bst();
 
-		virtual void add(const T & value);
-		virtual bool remove(const T & value);
-
-		T *find(const T & value) const;
+		virtual void add(const T & value) override;
+		virtual bool remove(const T & value) override;
+		virtual void clear() override;
+		virtual T *find(const T & value) const override;
 
 	protected:
 		struct Node : public data_structure<T>::Container {
@@ -44,8 +44,8 @@ namespace dsa
 		virtual void remove(Node *parent, Node *found);
 
 		T *find(Node *root, const T & value) const;
-		void findNode(Node *parent, Node *node, const T & value) const;
-		void findNode(Node *parent, Node *node, Node *root, const T & value) const;
+		void findNode(Node * & parent, Node * & node, const T & value) const;
+		void findNode(Node * & parent, Node * & node, Node *root, const T & value) const;
 	};
 
 #include "bst.cpp"
