@@ -22,7 +22,7 @@ namespace dsa
 
         ~string();
 
-        const char *cstring() const;
+        const char *cstring(bool copy = false) const;
 
         void append(char c);
 

@@ -64,8 +64,12 @@ void string::append(char c)
     m_string[m_length++] = c;
 }
 
-const char *string::cstring() const
+const char *string::cstring(bool copy) const
 {
+    if (!copy) {
+        return &m_string[0];
+    }
+
     char *str = new char[m_length + 1];
 
     for (int i = 0; i < m_length; i++) {
