@@ -16,8 +16,15 @@ string::string()
     m_string = new char[m_capacity];
 }
 
+string::string(int capacity)
+    : m_capacity(capacity),
+      m_length(0)
+{
+    m_string = new char[m_capacity];
+}
+
 string::string(const string & str)
-    : string()
+    : string(str.length())
 {
     for (int i = 0; i < str.length(); i++) {
         append(str.at(i));
@@ -33,7 +40,7 @@ string::string(const char *str)
 }
 
 string::string(const char *str, int length)
-    : string()
+    : string(length)
 {
     for (int i = 0; i < length; i++) {
         append(str[i]);

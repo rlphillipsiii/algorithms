@@ -179,27 +179,69 @@ bool list<T>::remove(const T & value)
 
 	while (current != nullptr) {
 		if (current->m_value == value) {
-			if (current == m_head) {
-				pop();
-			} else if (current == m_tail) {
-				pop_back();
-			} else {
-				Node *prev = current->m_prev;
-				Node *next = current->m_next;
-
-				prev->m_next = next;
-				next->m_prev = prev;
-
-				delete current;
-				__m_size--;
-			}
-
-			return true;
+			return unlink(current);
 		}
 		current = current->m_next;
 	}
 
 	return false;
+}
+
+template <typename T>
+bool list<T>::remove(const list<T>::iterator & it)
+{
+    return unlink(it.m_last);
+}
+
+template <typename T>
+bool list<T>::unlink(Node *node)
+{
+    if (node == nullptr) {
+        return false;
+    }
+
+    if (node == m_head) {
+        pop();
+    } else if (node == m_tail) {
+        pop_back();
+    } else {
+        Node *prev = node->m_prev;
+        Node *next = node->m_next;
+
+        prev->m_next = next;
+        next->m_prev = prev;
+
+        delete node;
+        __m_size--;
+    }
+
+    return true;
+}
+
+template <typename T>
+T & list<T>::operator[](uint64_t index)
+{
+    __check(index);
+
+    Node *target = m_head;
+    for (uint64_t i = 0; i < index; i++) {
+        target = target->m_next;
+    }
+
+    return target->m_value;
+}
+
+template <typename T>
+const T & list<T>::at(uint64_t index) const
+{
+    __check(index);
+
+    Node *target = m_head;
+    for (uint64_t i = 0; i < index; i++) {
+        target = target->m_next;
+    }
+
+    return target->m_value;
 }
 
 template <typename T>
@@ -229,7 +271,8 @@ template <typename T>
 list<T>::iterator::iterator(const list<T> & parent)
     : m_parent(parent),
       m_index(0),
-      m_current(parent.m_head)
+      m_current(parent.m_head),
+      m_last(nullptr)
 {
 
 }
@@ -259,6 +302,7 @@ T & list<T>::iterator::next()
 
     m_index++;
 
+    m_last = m_current;
     m_current = m_current->m_next;
     return value;
 }

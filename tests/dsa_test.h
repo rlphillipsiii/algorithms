@@ -12,7 +12,7 @@
 #include <iostream>
 #include <cstdint>
 
-#define TESTABLE_COUNT 6
+#define TESTABLE_COUNT 8
 
 class DataStructureTest
 {
@@ -43,14 +43,17 @@ private:
     struct Testable {
         Testable(const char *n,
                 dsa::data_structure<ObjectContainer> *c,
+                bool r,
                 TestableTest t)
             : name(n),
               container(c),
+              runDefault(r),
               test(t)
         { }
 
         const char *name;
         dsa::data_structure<ObjectContainer> *container;
+        bool runDefault;
         TestableTest test;
     };
 

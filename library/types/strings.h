@@ -37,6 +37,8 @@ namespace dsa
         inline int length() const { return m_length; }
 
     private:
+        string(int capacity);
+
         char *m_string;
 
         int m_capacity;

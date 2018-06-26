@@ -15,12 +15,23 @@ namespace dsa
     {
     public:
         pair() { }
+        pair(const pair<T1, T2> & other)
+        {
+            first  = other.first;
+            second = other.second;
+        }
+
         pair(const T1 & f, const T2 & s)
-            : first(f)
+            : first(f),
               second(s)
          { }
 
         ~pair() { }
+
+        bool operator==(const pair<T1, T2> & other) const
+        {
+            return ((first == other.first) && (second == other.second));
+        }
 
         T1 first;
         T2 second;

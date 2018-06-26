@@ -11,12 +11,14 @@
 #include <cstdlib>
 #include <ctime>
 
+#include <array.h>
 #include <arraylist.h>
 #include <list.h>
 #include <bst.h>
 #include <heap.h>
 #include <dequeue.h>
 #include <hash_table.h>
+#include <map.h>
 
 using namespace dsa;
 
@@ -31,17 +33,20 @@ bool DataStructureTest::TestableHelper::s_error = false;
 
 const int DataStructureTest::TEST_OBJECT_COUNT = MAX_DATA_STRUCTURE_SIZE;
 
-#define TESTABLE(name, structure, function, ...) { name, new structure<ObjectContainer>(__VA_ARGS__), &DataStructureTest::function }
+#define TESTABLE(name, structure, runDefault, function, ...) \
+    { name, new structure<ObjectContainer>(__VA_ARGS__), runDefault, &DataStructureTest::function }
 
 DataStructureTest::DataStructureTest()
     : m_containers({
-        TESTABLE("Array List Test", array_list, testArrayList, MAX_DATA_STRUCTURE_SIZE),
-        TESTABLE("Linked List Test", list, noop),
-        TESTABLE("BST Test", bst, noop),
-        TESTABLE("Heap Test", heap, noop),
-        TESTABLE("Dequeue Test", dequeue, noop),
-        TESTABLE("Hash Table Test", hash_table, noop),
-    })
+          TESTABLE("Array Test", array, false, noop, MAX_DATA_STRUCTURE_SIZE),
+          TESTABLE("Array List Test", array_list, true, testArrayList, MAX_DATA_STRUCTURE_SIZE),
+          TESTABLE("Linked List Test", list, true, noop),
+          TESTABLE("BST Test", bst, true, noop),
+          TESTABLE("Heap Test", heap, true, noop),
+          TESTABLE("Dequeue Test", dequeue, true, noop),
+          TESTABLE("Hash Table Test", hash_table, true, noop),
+          { "Map Test", new map<ObjectContainer, ObjectContainer>(), false, &DataStructureTest::noop }
+      })
 {
     m_objects = new ObjectContainer[TEST_OBJECT_COUNT];
     for (int i = 0; i < TEST_OBJECT_COUNT; i++) {
@@ -93,26 +98,28 @@ bool DataStructureTest::run(const struct Testable & testable)
     TestableHelper helper(testable);
 
     auto *container = testable.container;
-    container->clear();
+    if (testable.runDefault) {
+        container->clear();
 
-    container->add(m_objects[0]);
-    assertEquals(status, 1, container->size());
+        container->add(m_objects[0]);
+        assertEquals(status, 1, container->size());
 
-    bool removed = container->remove(m_objects[indexOfNextUnique(0)]);
-    assertEquals(status, false, removed);
-    assertEquals(status, 1, container->size());
+        bool removed = container->remove(m_objects[indexOfNextUnique(0)]);
+        assertEquals(status, false, removed);
+        assertEquals(status, 1, container->size());
 
-    removed = container->remove(m_objects[0]);
-    assertEquals(status, true, removed);
-    assertEquals(status, 0, container->size());
+        removed = container->remove(m_objects[0]);
+        assertEquals(status, true, removed);
+        assertEquals(status, 0, container->size());
 
-    for (int i = 0; i < MAX_DATA_STRUCTURE_SIZE; i++) {
-        container->add(m_objects[i]);
+        for (int i = 0; i < MAX_DATA_STRUCTURE_SIZE; i++) {
+            container->add(m_objects[i]);
+        }
+
+        container->clear();
+        assertEquals(status, 0, container->size());
+        container->clear();
     }
-
-    container->clear();
-    assertEquals(status, 0, container->size());
-    container->clear();
 
     if (testable.test != nullptr) {
         status &= (this->*testable.test)(container);

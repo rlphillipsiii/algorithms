@@ -35,6 +35,9 @@ namespace dsa
 		void clear() override;
 		void add(const T & value) override;
 
+		T & operator[](uint64_t index);
+		const T & at(uint64_t index) const;
+
 		class iterator
 		{
 		public:
@@ -46,13 +49,17 @@ namespace dsa
 		    uint64_t index() const;
 
 		private:
+		    friend class list;
+
 		    const list<T> & m_parent;
 
 		    uint64_t m_index;
 		    struct list<T>::Node *m_current;
+		    struct list<T>::Node *m_last;
 		};
 
 		iterator begin() const;
+		bool remove(const list<T>::iterator & it);
 
 	private:
 		struct Node : public data_structure<T>::Container {
@@ -66,6 +73,8 @@ namespace dsa
 
 		Node *m_head;
 		Node *m_tail;
+
+		bool unlink(Node *node);
 	};
 
 #include "list.cpp"

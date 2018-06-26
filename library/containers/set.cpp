@@ -6,14 +6,14 @@
  */
 
 template <typename T>
-set<T>::hash_set(uint64_t size)
+set<T>::set(uint64_t size)
     : hash_table<T>(size)
 {
 
 }
 
 template <typename T>
-set<T>::~hash_set()
+set<T>::~set()
 {
 
 }
@@ -21,7 +21,7 @@ set<T>::~hash_set()
 template <typename T>
 void set<T>::add(const T & value)
 {
-    if (!contains(value)) {
+    if (!data_structure<T>::contains(value)) {
         hash_table<T>::add(value);
     }
 }

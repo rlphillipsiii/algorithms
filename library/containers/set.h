@@ -19,7 +19,7 @@ namespace dsa
         set(uint64_t size = __HASH_TABLE_DEFAULT_SIZE);
         ~set();
 
-        virtual bool add(const T & value) override;
+        virtual void add(const T & value) override;
     private:
     };
 
