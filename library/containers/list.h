@@ -41,7 +41,6 @@ namespace dsa
 		class iterator
 		{
 		public:
-		    iterator(const list<T> & parent);
 		    ~iterator();
 
 		    bool hasNext() const;
@@ -50,6 +49,8 @@ namespace dsa
 
 		private:
 		    friend class list;
+
+		    iterator(const list<T> & parent);
 
 		    const list<T> & m_parent;
 

@@ -69,3 +69,41 @@ bool array<T>::remove(const T & value)
 
 	return true;
 }
+
+template <typename T>
+typename array<T>::iterator array<T>::begin() const
+{
+    return array<T>::iterator(*this);
+}
+
+template <typename T>
+array<T>::iterator::iterator(const array & parent)
+    : m_parent(parent),
+      m_index(0)
+{
+
+}
+
+template <typename T>
+array<T>::iterator::~iterator()
+{
+
+}
+
+template <typename T>
+bool array<T>::iterator::hasNext() const
+{
+    return (m_index < m_parent.m_size);
+}
+
+template <typename T>
+T & array<T>::iterator::next()
+{
+    return m_parent.m_storage[m_index++];
+}
+
+template <typename T>
+uint64_t array<T>::iterator::index() const
+{
+    return m_index;
+}
